@@ -101,11 +101,14 @@ def chase(pixels, c, length, delay):
 		i = (i+1)%len(pixels)
 		time.sleep(delay)
 
+def randColorFade(pixels, wait):
+	pass
+
 colorwipe(ledpixels, Color(255, 0, 0), 0.05)
 colorwipe(ledpixels, Color(0, 255, 0), 0.05)
 colorwipe(ledpixels, Color(0, 0, 255), 0.05)
 
 while True:
-#	rainbowCycle(ledpixels, 0.00)
-	chase(ledpixels, Color(255, 0, 0), 3, 0.5)
+	rainbowCycle(ledpixels, 0.00)
+#	chase(ledpixels, Color(255, 0, 0), 3, 0.5)
 
