@@ -106,5 +106,6 @@ colorwipe(ledpixels, Color(0, 255, 0), 0.05)
 colorwipe(ledpixels, Color(0, 0, 255), 0.05)
 
 while True:
-	rainbowCycle(ledpixels, 0.00)
+#	rainbowCycle(ledpixels, 0.00)
+	chase(ledpixels, Color(255, 0, 0), 3, 0.5)
 
