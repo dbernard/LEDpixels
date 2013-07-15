@@ -97,12 +97,16 @@ def chase(pixels, c, length, delay):
 			setpixelcolor(pixels, (i+j)%(len(pixels)), c)
 		if i > 0:
 			setpixelcolor(pixels, (i-1), Color(0,0,0))
+		writestrip(pixels)
 		# Mod by len(pixels) to wrap around
 		i = (i+1)%len(pixels)
 		time.sleep(delay)
 
 def randColorFade(pixels, wait):
-	pass
+	r = random.randint(1, 255)
+	g = random.randint(1, 255)
+	b = random.randint(1, 255)
+
 
 colorwipe(ledpixels, Color(255, 0, 0), 0.05)
 colorwipe(ledpixels, Color(0, 255, 0), 0.05)
