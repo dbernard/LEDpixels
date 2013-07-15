@@ -27,7 +27,7 @@ def writestrip(pixels):
 	'''
 	Send LED color/toggle data to the LED strip
 	'''
-	spidev = file("dev/spidev0.0", "w")
+	spidev = file("/dev/spidev0.0", "w")
 	for i in range(len(pixels)):
 		spidev.write(chr((pixels[i]>>16) & 0xFF))
 		spidev.write(chr((pixels[i]>>8) & 0xFF))
