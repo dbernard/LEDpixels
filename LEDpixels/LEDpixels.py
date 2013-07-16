@@ -83,7 +83,7 @@ def rainbowCycle(pixels, wait):
 		writestrip(pixels)
 		time.sleep(wait)
 
-def chase(pixels, c, length, delay):
+def singleColorChase(pixels, c, length, delay):
 	'''
 	Light up (length) pixels and shift them +1 every (delay) seconds, 
 	wrapping around when they reach the end of the strand.
@@ -102,17 +102,37 @@ def chase(pixels, c, length, delay):
 		i = (i+1)%len(pixels)
 		time.sleep(delay)
 
-def randColorFade(pixels, wait):
-	r = random.randint(1, 255)
-	g = random.randint(1, 255)
-	b = random.randint(1, 255)
+def overlappingChase(pixels, delay, colors=None):
+	'''
+	Light up a new pixel after (delay) seconds, wrapping around the strand
+	back to pixel 1 when it reaches the end and generates a new color or 
+	chooses randomly from the provided (colors) list.
+	'''
+	while True:
+		if colors is not None:
+			color = random.choice(colors)
+		else:
+			color = Color(random.randint(1, 255),
+					random.randint(1, 255),
+					random.randint(1, 255))
+		for i in range(len(pixels)):
+			setpixelcolor(pixels, i, color)
+			writestrip(pixels)
+			time.sleep(delay)
 
+def randColorFade(pixels, wait):
+	pass
 
 colorwipe(ledpixels, Color(255, 0, 0), 0.05)
 colorwipe(ledpixels, Color(0, 255, 0), 0.05)
 colorwipe(ledpixels, Color(0, 0, 255), 0.05)
 
 while True:
-	rainbowCycle(ledpixels, 0.00)
-#	chase(ledpixels, Color(255, 0, 0), 3, 0.5)
+	try:
+#		rainbowCycle(ledpixels, 0.00)
+#		singleColorChase(ledpixels, Color(255, 0, 0), 3, 0.5)
+		overlappingChase(ledpixels, 0.02)
+	except (KeyboardInterrupt, SystemExit):
+		print 'Exiting...'
+		break
 
