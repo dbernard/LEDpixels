@@ -34,7 +34,7 @@ class Strip(object):
 		'''
 		spidev = file("/dev/spidev0.0", "w")
 		for i in range(len(self.pixels)):
-			spidev.write(chr(self.(pixels[i]>>16) & 0xFF))
+			spidev.write(chr((self.pixels[i]>>16) & 0xFF))
 			spidev.write(chr((self.pixels[i]>>8) & 0xFF))
 			spidev.write(chr(self.pixels[i] & 0xFF))
 		spidev.close()
