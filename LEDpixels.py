@@ -4,9 +4,17 @@ import RPi.GPIO as GPIO
 import time
 import os
 import random
+import web
 
 DEBUG = 1
 GPIO.setmode(GPIO.BCM)
+
+# Paths for web.py
+urls = ('/test', 'test',
+        '/index', 'index')
+
+# Render templates for web.py
+render = web.template.render('templates/', globals={'os': os})
 
 
 def slowspiwrite(clockpin, datapin, byteout):
@@ -130,19 +138,34 @@ class Strip(object):
                 self.writestrip()
                 time.sleep(delay)
 
-Strip = Strip(25)
+
+class index:
+    def GET(self):
+        return render.index()
+
+
+class test:
+    def GET(self):
+        print 'Success'
+
+Strip = Strip(50)
 Strip.colorwipe(Strip.Color(255, 0, 0), 0.05)
 Strip.colorwipe(Strip.Color(0, 255, 0), 0.05)
 Strip.colorwipe(Strip.Color(0, 0, 255), 0.05)
 
-while True:
-    try:
-        #Strip.rainbowCycle(0.00)
-        #Strip.singleColorChase(Strip.Color(255, 0, 0), 3, 0.1)
-        Strip.overlappingChase(0.02)
+if __name__ == "__main__":
+    app = web.application(urls, globals())
+    app.run()
+    '''
+    while True:
+        try:
+            #Strip.rainbowCycle(0.00)
+            #Strip.singleColorChase(Strip.Color(255, 0, 0), 3, 0.1)
+            #Strip.overlappingChase(0.02)
 
-    except (KeyboardInterrupt, SystemExit):
-        print '\r\n --Exiting-- \r\n'
-        Strip.colorwipe(Strip.Color(0, 0, 0), 0)
-        break
+        except (KeyboardInterrupt, SystemExit):
+            print '\r\n --Exiting-- \r\n'
+            Strip.colorwipe(Strip.Color(0, 0, 0), 0)
+            break
+    '''
 

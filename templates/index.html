@@ -8,8 +8,12 @@
   </head>
   <body>
 	  <h1>Hello, world!</h1>
-	  <button type="button" class="btn btn-success">Button</button>
+          <button id='test' type="button" class="btn btn-success">Button</button>
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.js">
+    jQuery(document).ready(function() {
+        jQuery("body").on("click", "#test", function() {
+            jQuery.get('/test', 'none', function(data){});});});
+    </script>
   </body>
 </html>
