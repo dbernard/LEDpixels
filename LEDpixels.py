@@ -146,7 +146,7 @@ class index:
 
 class test:
     def GET(self):
-        print 'Success'
+        Strip.colorwipe(Strip.Color(255, 255, 255), 0.00)
 
 Strip = Strip(50)
 Strip.colorwipe(Strip.Color(255, 0, 0), 0.05)
