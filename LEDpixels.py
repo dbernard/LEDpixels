@@ -11,7 +11,7 @@ GPIO.setmode(GPIO.BCM)
 
 # Paths for web.py
 urls = ('/test', 'test',
-        '/index', 'index')
+        '/', 'index')
 
 # Render templates for web.py
 render = web.template.render('templates/', globals={'os': os})
@@ -149,9 +149,10 @@ class test:
         Strip.colorwipe(Strip.Color(255, 255, 255), 0.00)
 
 Strip = Strip(50)
-Strip.colorwipe(Strip.Color(255, 0, 0), 0.05)
-Strip.colorwipe(Strip.Color(0, 255, 0), 0.05)
-Strip.colorwipe(Strip.Color(0, 0, 255), 0.05)
+Strip.colorwipe(Strip.Color(0, 0, 0), 0.00)
+#Strip.colorwipe(Strip.Color(255, 0, 0), 0.05)
+#Strip.colorwipe(Strip.Color(0, 255, 0), 0.05)
+#Strip.colorwipe(Strip.Color(0, 0, 255), 0.05)
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
