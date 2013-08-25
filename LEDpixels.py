@@ -4,10 +4,22 @@ import RPi.GPIO as GPIO
 import time
 import os
 import random
+import web
 
 DEBUG = 1
 GPIO.setmode(GPIO.BCM)
+SPICLK = 18
+SPIDO = 17
 
+urls = ('/', 'index',
+        '/white', 'white',
+        '/red', 'red',
+        '/green', 'green',
+        '/blue', 'blue',
+        '/rainbow', 'rainbow',
+        '/off', 'off')
+
+render = web.template.render('templates/')
 
 def slowspiwrite(clockpin, datapin, byteout):
     GPIO.setup(clockpin, GPIO.OUT)
@@ -20,9 +32,6 @@ def slowspiwrite(clockpin, datapin, byteout):
         byte <<= 1
         GPIO.output(clockpin, True)
         GPIO.output(clockpin, False)
-
-SPICLK = 18
-SPIDO = 17
 
 
 class Strip(object):
@@ -130,18 +139,47 @@ class Strip(object):
                 self.writestrip()
                 time.sleep(delay)
 
-Strip = Strip(25)
-Strip.colorwipe(Strip.Color(255, 0, 0), 0.05)
-Strip.colorwipe(Strip.Color(0, 255, 0), 0.05)
-Strip.colorwipe(Strip.Color(0, 0, 255), 0.05)
 
-while True:
-    try:
+class index:
+    def GET(self):
+        return render.index()
+
+
+class white:
+    def GET(self):
+        Strip.colorwipe(Strip.Color(255, 255, 255), 0.00)
+
+
+class red:
+    def GET(self):
+        Strip.colorwipe(Strip.Color(255, 0, 0), 0.00)
+
+
+class green:
+    def GET(self):
+        Strip.colorwipe(Strip.Color(0, 255, 0), 0.00)
+
+
+class blue:
+    def GET(self):
+        Strip.colorwipe(Strip.Color(0, 0, 255), 0.00)
+
+
+class rainbow:
+    def GET(self):
         Strip.rainbowCycle(0.00)
-        #Strip.singleColorChase(Strip.Color(255, 0, 0), 3, 0.1)
-        #Strip.overlappingChase(0.02)
-    except (KeyboardInterrupt, SystemExit):
-        print '\r\n --Exiting-- \r\n'
-        Strip.colorwipe(Strip.Color(0, 0, 0), 0)
-        break
+
+
+class off:
+    def GET(self):
+        Strip.colorwipe(Strip.Color(0, 0, 0), 0.00)
+
+Strip = Strip(50)
+#Strip.colorwipe(Strip.Color(255, 0, 0), 0.05)
+#Strip.colorwipe(Strip.Color(0, 255, 0), 0.05)
+#Strip.colorwipe(Strip.Color(0, 0, 255), 0.05)
+
+if __name__ == '__main__':
+    app = web.application(urls, globals())
+    app.run()
 
